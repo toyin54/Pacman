@@ -62,7 +62,7 @@ class Pacman {
 
     }
     getMapY(){
-        return parseInt(this.y/oneBlockSize)
+        return parseInt(this.y/oneBlockSize);
 
     }
 }

@@ -17,36 +17,42 @@ let map = [
     [1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1],
     [1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1],
     [1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1],
-    [0, 0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 0],
+    [1, 0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1],
-    [2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2],
+    [1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1],
     [1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1],
-    [0, 0, 0, 0, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 0],
+    [1, 0, 0, 0, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1],
     [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
     [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],
     [1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1],
-    [1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 2, 1, 1],
+    [1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 2, 2, 1],
     [1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1],
     [1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1],
     [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
-let fps = 30;
+let fps = 60;
+let pacman;
 let oneBlockSize = 20
-let wallColor = "#342DCA";
+let wallColor = "white";
 let wallSpaceWidth = oneBlockSize /1.5;
-let wallOffset = (oneBlockSize - wallSpaceWidth )/2;
-wallInnerC = "black";
+let wallOffset = (oneBlockSize - wallSpaceWidth )/1.6;
+wallInnerC = "green";
 
 
 
 const DIRECTION_RIGHT  = 4;
-const DIRECTION_LEFT  = 4;
-const DIRECTION_UP  = 4;
-const DIRECTION_DOWN  = 4;
+const DIRECTION_LEFT  = 3;
+const DIRECTION_UP  = 2;
+const DIRECTION_DOWN  = 1;
+
+
+
+
+
 let gameLoop = () => {
     update()
     draw()
@@ -54,12 +60,16 @@ let gameLoop = () => {
 
 let update = () => {
     //todo  
+    pacman.moveProcess()
+  
 };
 
 let draw = () => {
     //todo 
-    createRect(0,0,canvas.width,canvas.height,"black");
+    createRect(1,0,canvas.width,canvas.height,"green");
     drawWalls();
+    pacman.draw();
+    
 
 };
 
@@ -115,4 +125,47 @@ let drawWalls = () => {
             }
         }
     }
+}
+    
+
+
+let CreatePMan = () => {
+    pacman = new Pacman(
+           oneBlockSize,
+           oneBlockSize,
+           oneBlockSize,
+           oneBlockSize,
+           oneBlockSize/5
+       )
 };
+
+CreatePMan();
+gameLoop();
+
+window.addEventListener("keydown",(event) => {
+    let k = event.keyCode ;
+    
+    setTimeout(() => {
+        if(k ==37 || k ==65)
+        {//left
+            pacman.nextDirection = DIRECTION_LEFT
+        }
+        else if (k ==38 || k == 87)
+        {
+         //up    
+         pacman.nextDirection = DIRECTION_UP
+        }
+        else if (k ==39 || k == 68) 
+        {
+        //right
+        pacman.nextDirection = DIRECTION_RIGHT
+
+        }
+        else if (k == 40 || k == 83) 
+        {
+            //down
+            pacman.nextDirection = DIRECTION_DOWN
+        }
+
+    },1);
+});
